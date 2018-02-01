@@ -10,7 +10,7 @@
     <p>this is just for testing!</p>
     <table>
         <tr>
-            <td onclick="makeAppt('Dr. Hong', '01-02-18', '9:00am', 'Claire')">
+            <td onclick="makeAppt('DrHong', '01-02-18', '9:00am', 'Claire');">
                 <div>9:00am</div>
                 <div>Michael MacDonald</div>
             </td>
@@ -38,6 +38,31 @@
         </tr>
     </table>
 </body>
+<script src="https://www.gstatic.com/firebasejs/4.0.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.0.0/firebase-database.js"></script>
+<script type="text/javascript">
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDQ2qblJX1vmmVD7akV2pmMN51sJJRSzpM",
+    authDomain: "appointments-75336.firebaseapp.com",
+    databaseURL: "https://appointments-75336.firebaseio.com",
+    projectId: "appointments-75336",
+    storageBucket: "appointments-75336.appspot.com",
+    messagingSenderId: "477533169839"
+  };
+  firebase.initializeApp(config);
 
-<script type="text/javascript" src="appt.js"></script>
+  var database = firebase.database();
+
+  function makeAppt(doctor, date, time, name) {
+//    firebase.initializeApp(config);
+    console.log(database);
+
+    database.ref('appointments/' + doctor + "/" + date + "/" + time).set({
+      date: date,
+      time: time,
+      name: name
+    })
+  }
+</script>
 </html>

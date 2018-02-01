@@ -1,5 +1,3 @@
-var firebase = require('firebase')
-
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyDQ2qblJX1vmmVD7akV2pmMN51sJJRSzpM",
@@ -9,21 +7,22 @@ var config = {
   storageBucket: "appointments-75336.appspot.com",
   messagingSenderId: "477533169839"
 };
-firebase.initializeApp(config);
 
 var database = firebase.database();
 
+function init() {
+  if (!firebase.apps.length) {
+    firebase.initializeApp(config);
+  }
+}
+
 function makeAppt(doctor, date, time, name) {
-  database.ref('appointments/' + doctor).set({
+  firebase.initializeApp(config);
+  console.log(database);
+
+  database.ref('appointments/' + doctor + "/" + date + "/" + time).set({
     date: date,
     time: time,
     name : name
-  }, function(error) {
-    if(error){
-      alert('error!');
-    }
-    else{
-      alert('ok!');
-    }
   });
 }
