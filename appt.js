@@ -7,17 +7,11 @@ var config = {
   storageBucket: "appointments-75336.appspot.com",
   messagingSenderId: "477533169839"
 };
+firebase.initializeApp(config);
 
 var database = firebase.database();
 
-function init() {
-  if (!firebase.apps.length) {
-    firebase.initializeApp(config);
-  }
-}
-
 function makeAppt(doctor, date, time, name) {
-  firebase.initializeApp(config);
   console.log(database);
 
   database.ref('appointments/' + doctor + "/" + date + "/" + time).set({
