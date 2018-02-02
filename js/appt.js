@@ -29,88 +29,33 @@ $(function() {
   }).datepicker("setDate", "0");
 
   var doctors = ["Dr.Hong", "Dr.Joo", "Dr.McDonald"];
-  drawTimeTables(doctors);
+  var availableTimes = ["9:00am", "9:30am", "10:00am", "10:30am",
+                        "11:00am", "11:30am", "12:00pm", "12:30pm",
+                        "1:00pm", "1:30pm", "2:00pm", "2:30pm",
+                        "3:00pm", "3:30pm", "4:00pm", "4:30pm"]
+  drawTimeTables(doctors, availableTimes);
 });
 
 // draw time tables dynamically
-function drawTimeTables(doctors) {
+function drawTimeTables(doctors, availableTimes) {
   for (var i = 0; i < doctors.length; i++) {
+    var table = $('<table></table>');
+    for (var j = 0; j < availableTimes.length; j++) {
+      if (j % 4 == 0) {
+        $('<tr>').appendTo(table);
+      }
+
+      $('<div>' + availableTimes[j] + '</div>\n').appendTo(table);
+      $('<div></div>\n').appendTo(table);
+
+      if (j % 4 == 3) {
+        $('</tr>').appendTo(table);
+      }
+    }
+
     $('#time-tables').append(
       '<div class="doctor-container" style="margin-top: 50px;"><h4 class="doctor-name">' + doctors[i] + '</h4>\n' +
-      '        <table>\n' +
-      '            <tr>\n' +
-      '                <td class="btn btn-info btn-lg appointment-time">\n' +
-      '                    <div>9:00am</div>\n' +
-      '                    <div></div>\n' +
-      '                </td>\n' +
-      '                <td class="btn btn-info btn-lg appointment-time">\n' +
-      '                    <div>9:30am</div>\n' +
-      '                    <div></div>\n' +
-      '                </td>\n' +
-      '                <td class="btn btn-info btn-lg appointment-time">\n' +
-      '                    <div>10:00am</div>\n' +
-      '                    <div></div>\n' +
-      '                </td>\n' +
-      '                <td class="btn btn-info btn-lg appointment-time">\n' +
-      '                    <div>10:30am</div>\n' +
-      '                    <div></div>\n' +
-      '                </td>\n' +
-      '            </tr>\n' +
-      '            <tr>\n' +
-      '                <td class="btn btn-info btn-lg appointment-time">\n' +
-      '                    <div>11:00am</div>\n' +
-      '                    <div></div>\n' +
-      '                </td>\n' +
-      '                <td class="btn btn-info btn-lg appointment-time">\n' +
-      '                    <div>11:30am</div>\n' +
-      '                    <div></div>\n' +
-      '                </td>\n' +
-      '                <td class="btn btn-info btn-lg appointment-time">\n' +
-      '                    <div>12:00pm</div>\n' +
-      '                    <div></div>\n' +
-      '                </td>\n' +
-      '                <td class="btn btn-info btn-lg appointment-time">\n' +
-      '                    <div>12:30pm</div>\n' +
-      '                    <div></div>\n' +
-      '                </td>\n' +
-      '            </tr>\n' +
-      '            <tr>\n' +
-      '                <td class="btn btn-info btn-lg appointment-time">\n' +
-      '                    <div>1:00pm</div>\n' +
-      '                    <div></div>\n' +
-      '                </td>\n' +
-      '                <td class="btn btn-info btn-lg appointment-time">\n' +
-      '                    <div>1:30pm</div>\n' +
-      '                    <div></div>\n' +
-      '                </td>\n' +
-      '                <td class="btn btn-info btn-lg appointment-time">\n' +
-      '                    <div>2:00pm</div>\n' +
-      '                    <div></div>\n' +
-      '                </td>\n' +
-      '                <td class="btn btn-info btn-lg appointment-time">\n' +
-      '                    <div>2:30pm</div>\n' +
-      '                    <div></div>\n' +
-      '                </td>\n' +
-      '            </tr>\n' +
-      '            <tr>\n' +
-      '                <td class="btn btn-info btn-lg appointment-time">\n' +
-      '                    <div>3:00pm</div>\n' +
-      '                    <div></div>\n' +
-      '                </td>\n' +
-      '                <td class="btn btn-info btn-lg appointment-time">\n' +
-      '                    <div>3:30pm</div>\n' +
-      '                    <div></div>\n' +
-      '                </td>\n' +
-      '                <td class="btn btn-info btn-lg appointment-time">\n' +
-      '                    <div>4:00pm</div>\n' +
-      '                    <div></div>\n' +
-      '                </td>\n' +
-      '                <td class="btn btn-info btn-lg appointment-time">\n' +
-      '                    <div>4:30pm</div>\n' +
-      '                    <div></div>\n' +
-      '                </td>\n' +
-      '            </tr>\n' +
-      '        </table>\n' +
+      table +
       '</div>')
   }
 }
