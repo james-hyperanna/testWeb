@@ -22,11 +22,10 @@
         <div id="btn_date_picker" class="btn btn-default">Select</div>
     </div>
 
-    <div style="margin-top: 50px;">
-        <h4>Dr.Hong</h4>
+    <div class="doctor-container" style="margin-top: 50px;">
+        <h4 class="doctor-name">Dr.Hong</h4>
         <table>
             <tr>
-                <!-- <td onclick="makeAppt('DrKim', '01-02-18', '9:00am', 'Claire');"> -->
                 <td class="btn btn-info btn-lg appointment-time">
                     <div>9:00am</div>
                     <div></div>
@@ -101,6 +100,8 @@
         </table>
     </div>
 
+    <div id="time-tables"></div>
+
 
 
 
@@ -117,6 +118,7 @@
                     <h4 class="modal-title">Confirm Appointment</h4>
                 </div>
                 <div class="modal-body">
+                    <p><span style="font-weight: bold;">Doctor:</span> <span id="appointment-doctor"></span></p>
                     <p><span style="font-weight: bold;">Date:</span> <span id="appointment-date"></span></p>
                     <p><span style="font-weight: bold;">Time:</span> <span id="appointment-time"></span></p>
                     Patient name: <input id="appointment-patient">
