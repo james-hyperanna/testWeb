@@ -28,7 +28,7 @@ $(function() {
     dateFormat: "dd-mm-yy"
   }).datepicker("setDate", "0");
 
-  var doctors = ["Dr.Joo", "Dr.McDonald"];
+  var doctors = ["Dr.Hong", "Dr.Joo", "Dr.McDonald"];
   drawTimeTables(doctors);
 });
 
