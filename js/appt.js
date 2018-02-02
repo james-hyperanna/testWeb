@@ -1,3 +1,4 @@
+
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyDQ2qblJX1vmmVD7akV2pmMN51sJJRSzpM",
@@ -17,6 +18,24 @@ function makeAppt(doctor, date, time, name) {
   database.ref('appointments/' + doctor + "/" + date + "/" + time).set({
     date: date,
     time: time,
-    name : name
+    name: name
   });
 }
+
+
+$(function() {
+  console.log('hi');
+  $('#datepicker').datepicker({
+    dateFormat: "dd-mm-yy"
+  }).datepicker("setDate", "0");
+});
+
+$('.appointment-time').click(function() {
+  $('#appointment-time').text($(this).children(':first').text()); // get the time
+  $('#myModal').modal('show'); // open the popup
+});
+
+$('#btn_date_picker').click(function() {
+  console.log('hello');
+  $('#datepicker').datepicker('show');
+})

@@ -3,42 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="main.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- jQuery calendar -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
     <title>Title</title>
 </head>
 <body>
     <h1>hihi</h1>
     <p>this is just for testing!</p>
-    <table>
+
+    <div style="display:inline-block;">
+        Date: <input id="datepicker" disabled="disabled">
+        <div id="btn_date_picker" class="btn btn-default">Select</div>
+    </div>
+
+    <table style="margin-top: 50px;">
         <tr>
-            <td onclick="makeAppt('DrKim', '01-02-18', '9:00am', 'Claire');">
-                <div>9:00am</div>
+            <!-- <td onclick="makeAppt('DrKim', '01-02-18', '9:00am', 'Claire');"> -->
+            <td class="btn btn-info btn-lg appointment-time">
+                <div id="time">9:00am</div>
+                <div id="patient">Michael MacDonald</div>
+            </td>
+            <td class="btn btn-info btn-lg appointment-time">
+                <div>9:30am</div>
                 <div>Michael MacDonald</div>
             </td>
-            <td>9:30am</td>
-            <td>10:00am</td>
-            <td>10:30am</td>
+            <td class="btn btn-info btn-lg appointment-time">
+                <div>10:00am</div>
+                <div>Michael MacDonald</div>
+            </td>
+            <td class="btn btn-info btn-lg appointment-time">
+                <div>10:30am</div>
+                <div>Michael MacDonald</div>
+            </td>
         </tr>
         <tr>
-            <td>11:00am</td>
-            <td>11:30am</td>
-            <td>12:00pm</td>
-            <td>12:30pm</td>
+            <td class="btn btn-info btn-lg appointment-time">
+                <div>11:00am</div>
+                <div>Michael MacDonald</div>
+            </td>
+            <td class="btn btn-info btn-lg appointment-time">
+                <div>11:30am</div>
+                <div>Michael MacDonald</div>
+            </td>
+            <td class="btn btn-info btn-lg appointment-time">
+                <div>12:00pm</div>
+                <div>Michael MacDonald</div>
+            </td>
+            <td class="btn btn-info btn-lg appointment-time">
+                <div>12:30pm</div>
+                <div>Michael MacDonald</div>
+            </td>
         </tr>
         <tr>
-            <td>1:00pm</td>
-            <td>1:30pm</td>
-            <td>2:00pm</td>
-            <td>2:30pm</td>
+            <td class="btn btn-info btn-lg appointment-time">
+                <div>1:00pm</div>
+                <div>Michael MacDonald</div>
+            </td>
+            <td class="btn btn-info btn-lg appointment-time">
+                <div>1:30pm</div>
+                <div>Michael MacDonald</div>
+            </td>
+            <td class="btn btn-info btn-lg appointment-time">
+                <div>2:00pm</div>
+                <div>Michael MacDonald</div>
+            </td>
+            <td class="btn btn-info btn-lg appointment-time">
+                <div>2:30pm</div>
+                <div>Michael MacDonald</div>
+            </td>
         </tr>
         <tr>
-            <td>3:00pm</td>
-            <td>3:30pm</td>
-            <td>4:00pm</td>
-            <td>4:30pm</td>
+            <td class="btn btn-info btn-lg appointment-time">
+                <div>3:00pm</div>
+                <div>Michael MacDonald</div>
+            </td>
+            <td class="btn btn-info btn-lg appointment-time">
+                <div>3:30pm</div>
+                <div>Michael MacDonald</div>
+            </td>
+            <td class="btn btn-info btn-lg appointment-time">
+                <div>4:00pm</div>
+                <div>Michael MacDonald</div>
+            </td>
+            <td class="btn btn-info btn-lg appointment-time">
+                <div>4:30pm</div>
+                <div>Michael MacDonald</div>
+            </td>
         </tr>
     </table>
+
+    <!-- Appointment Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Confirm Appointment</h4>
+                </div>
+                <div class="modal-body">
+                    <p id="appointment-date"></p>
+                    <p id="appointment-time"></p>
+                    Patient name: <input id="patient-name">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Confirm</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </body>
 <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase-database.js"></script>
-<script src="appt.js"></script>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<!-- jQuery calendar -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="js/appt.js"></script>
 </html>
