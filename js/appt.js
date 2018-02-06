@@ -11,6 +11,7 @@ var config = {
 firebase.initializeApp(config);
 
 var database = firebase.database();
+var selectedDoc;
 
 function makeAppt(doctor, date, time, name) {
   console.log(database);
@@ -39,26 +40,31 @@ $(function() {
 // draw time tables dynamically
 function drawTimeTables(doctors, availableTimes) {
   for (var i = 0; i < doctors.length; i++) {
-    var table = $('<table></table>');
+    var content = "";
+    content += '<div class="doctor-container" style="margin-top: 50px;"><h4 class="doctor-name">' + doctors[i] + '</h4>\n'
+    content += '        <table>\n'
     for (var j = 0; j < availableTimes.length; j++) {
       if (j % 4 == 0) {
-        $('<tr>').appendTo(table);
+        content += '            <tr>\n'
       }
 
-      $('<div>' + availableTimes[j] + '</div>\n').appendTo(table);
-      $('<div></div>\n').appendTo(table);
+      content += '                <td class="btn btn-info btn-lg appointment-time">\n'
+      content += '                    <div>' + availableTimes[j] + '</div>\n'
+      content += '                    <div></div>\n'
+      content += '                </td>\n'
 
       if (j % 4 == 3) {
-        $('</tr>').appendTo(table);
+        content += '            </tr>\n'
       }
     }
 
-    $('#time-tables').append(
-      '<div class="doctor-container" style="margin-top: 50px;"><h4 class="doctor-name">' + doctors[i] + '</h4>\n' +
-      table +
-      '</div>')
+    content += '        </table>\n'
+    content += '</div>'
+
+    $('#time-tables').append(content)
   }
 }
+
 
 // open
 /* does not work with the appended htmls
@@ -74,7 +80,8 @@ $('.appointment-time').click(function() {
 //
 $('#time-tables').on('click', '.appointment-time', function() {
   // console.log($(this).closest('.doctor-container').find('.doctor-name').text());
-  $('#appointment-doctor').text($(this).closest('.doctor-name').text()); // get the doctor
+  selectedDoc = $(this).closest('.doctor-name').text();
+  $('#appointment-doctor').text(selectedDoc); // get the doctor
   $('#appointment-date').text($('#datepicker').val()); // get the date
   $('#appointment-time').text($(this).children(':first').text()); // get the time
   $('#myModal').modal('show'); // open the popup
@@ -93,5 +100,5 @@ $('#appointment-confirm').click(function() {
   console.log($('#appointment-date').text())
   console.log($('#appointment-time').text())
   console.log($('#appointment-patient').val())
-  makeAppt('DrHong', $('#appointment-date').text(), $('#appointment-time').text(), $('#appointment-patient').val())
+  makeAppt(selectedDoc, $('#appointment-date').text(), $('#appointment-time').text(), $('#appointment-patient').val())
 })
