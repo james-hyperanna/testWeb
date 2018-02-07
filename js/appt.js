@@ -12,63 +12,94 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 var selectedDoc;
+var selectedDate;
+
+var doctors = ["DrHong", "DrJoo", "DrMcDonald"];
+var availableTimes = ["9:00am", "9:30am", "10:00am", "10:30am",
+  "11:00am", "11:30am", "12:00pm", "12:30pm",
+  "1:00pm", "1:30pm", "2:00pm", "2:30pm",
+  "3:00pm", "3:30pm", "4:00pm", "4:30pm"]
 
 // set today's date by default
 $(function() {
-  $('#datepicker').datepicker({
-    dateFormat: "dd-mm-yy"
-  }).datepicker("setDate", "0");
+  // $('#datepicker').datepicker({
+  //   dateFormat: "dd-mm-yy"
+  // }).datepicker("setDate", "0")
 
-  var doctors = ["DrHong", "DrJoo", "DrMcDonald"];
-  var availableTimes = ["9:00am", "9:30am", "10:00am", "10:30am",
-    "11:00am", "11:30am", "12:00pm", "12:30pm",
-    "1:00pm", "1:30pm", "2:00pm", "2:30pm",
-    "3:00pm", "3:30pm", "4:00pm", "4:30pm"]
-  drawTimeTables(doctors, availableTimes);
-  loadAppt(doctors[0], "02-02-2018");
+  $('#datepicker').datepicker({
+    dateFormat: 'dd-mm-yy'
+  }).datepicker('setDate', '0')
+    .on('input change', function(e) {
+      selectedDate = e.target.value;
+    })
+
+  selectedDate = $('#datepicker').val();
+
+  drawTimeTables(selectedDate);
+  // loadAppt(doctors[0], "02-02-2018");
 });
 
 
 function makeAppt(doctor, date, time, name) {
-  database.ref('appointments/' + doctor + "/" + date + "/" + time).set({
+  console.log('doc: ' + doctor + '\ndate: ' + date + '\ntime: ' + time + '\nname: ' + name)
+  database.ref().child('appointments').child(date).child(doctor).child(time).set({
     date: date,
     time: time,
     name: name
   });
 }
 
-function loadAppt(doctor, date) {
-  database.ref('appointments/' + doctor + '/' + date).on('value', function(snapshot) {
-    console.log(JSON.stringify(snapshot.val(), null, 2));
-  })
-}
-
 // draw time tables dynamically
-function drawTimeTables(doctors, availableTimes) {
-  for (var i = 0; i < doctors.length; i++) {
-    var content = "";
-    content += '<div class="doctor-container" style="margin-top: 50px;"><h4 class="doctor-name">' + doctors[i] + '</h4>\n'
-    content += '        <table>\n'
-    for (var j = 0; j < availableTimes.length; j++) {
-      if (j % 4 == 0) {
-        content += '            <tr>\n'
+function drawTimeTables(date) {
+  database.ref().child('appointments').child(date).on('value', function(snapshot) {
+    var appointments = snapshot.val();
+    console.log(appointments);
+    for (var i = 0; i < doctors.length; i++) {
+      var doctor = doctors[i];
+      var appointment = appointments[doctor]
+      console.log('name: ' + doctor);
+      console.log('appointment', appointment)
+      // for (var appt in appointments) {
+      //   console.log(appt);
+      // }
+
+      var content = "";
+      content += '<div id="' + doctor +  '" class="doctor-container" style="margin-top: 50px;">\n'
+      content += '  <h4 class="doctor-name">' + doctor + '</h4>\n'
+      content += '        <table>\n'
+      for (var j = 0; j < availableTimes.length; j++) {
+        var time = availableTimes[j];
+        var patient = "";
+        if (appointment != null && appointment != undefined && appointment[time] != undefined) {
+          console.log(appointments[doctor][time])
+          patient = appointments[doctor][time]['name'];
+        }
+
+        if (j % 4 == 0) {
+          content += '            <tr>\n'
+        }
+
+        if (patient == "") {
+          content += '                <td class="btn btn-info btn-lg appointment-time">\n'
+        } else {
+          content += '                <td class="btn-danger btn-info btn-lg appointment-time">\n'
+        }
+
+        content += '                    <div>' + time + '</div>\n'
+        content += '                    <div>' + patient + '</div>\n'
+        content += '                </td>\n'
+
+        if (j % 4 == 3) {
+          content += '            </tr>\n'
+        }
       }
 
-      content += '                <td class="btn btn-info btn-lg appointment-time">\n'
-      content += '                    <div>' + availableTimes[j] + '</div>\n'
-      content += '                    <div></div>\n'
-      content += '                </td>\n'
+      content += '        </table>\n'
+      content += '</div>'
 
-      if (j % 4 == 3) {
-        content += '            </tr>\n'
-      }
+      $('#time-tables').append(content)
     }
-
-    content += '        </table>\n'
-    content += '</div>'
-
-    $('#time-tables').append(content)
-  }
+  })
 }
 
 
@@ -86,9 +117,9 @@ $('.appointment-time').click(function() {
 //
 $('#time-tables').on('click', '.appointment-time', function() {
   // console.log($(this).closest('.doctor-container').find('.doctor-name').text());
-  selectedDoc = $(this).closest('.doctor-name').text();
+  selectedDoc = $(this).closest('.doctor-container').find('.doctor-name').text();
   $('#appointment-doctor').text(selectedDoc); // get the doctor
-  $('#appointment-date').text($('#datepicker').val()); // get the date
+  $('#appointment-date').text(selectedDate); // get the date
   $('#appointment-time').text($(this).children(':first').text()); // get the time
   $('#myModal').modal('show'); // open the popup
 });
