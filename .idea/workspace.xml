@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="526e8d39-4f18-448b-8ce4-ff2f8c262da8" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/appt.js" afterPath="$PROJECT_DIR$/js/appt.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -35,10 +36,10 @@
       <file leaf-file-name="appt.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/appt.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="63" column="37" lean-forward="true" selection-start-line="63" selection-start-column="37" selection-end-line="63" selection-end-column="37" />
+            <state relative-caret-position="494">
+              <caret line="41" column="57" lean-forward="true" selection-start-line="41" selection-start-column="57" selection-end-line="41" selection-end-column="57" />
               <folding>
-                <marker date="1517879160000" expanded="true" signature="1323:1340" ph="..." />
+                <marker date="1517979105000" expanded="true" signature="1460:1477" ph="..." />
               </folding>
             </state>
           </provider>
@@ -170,12 +171,12 @@
       <option name="presentableId" value="Default" />
       <updated>1517280196096</updated>
       <workItem from="1517280197357" duration="383000" />
-      <workItem from="1517457070356" duration="14136000" />
+      <workItem from="1517457070356" duration="14844000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14519000" />
+    <option name="totallyTimeSpent" value="15227000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-130" y="-1080" width="1920" height="1080" extended-state="0" />
@@ -272,10 +273,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/appt.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="63" column="37" lean-forward="true" selection-start-line="63" selection-start-column="37" selection-end-line="63" selection-end-column="37" />
+        <state relative-caret-position="494">
+          <caret line="41" column="57" lean-forward="true" selection-start-line="41" selection-start-column="57" selection-end-line="41" selection-end-column="57" />
           <folding>
-            <marker date="1517879160000" expanded="true" signature="1323:1340" ph="..." />
+            <marker date="1517979105000" expanded="true" signature="1460:1477" ph="..." />
           </folding>
         </state>
       </provider>
