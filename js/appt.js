@@ -22,30 +22,26 @@ var availableTimes = ["9:00am", "9:30am", "10:00am", "10:30am",
 
 // set today's date by default
 $(function() {
-  // $('#datepicker').datepicker({
-  //   dateFormat: "dd-mm-yy"
-  // }).datepicker("setDate", "0")
-
   $('#datepicker').datepicker({
     dateFormat: 'dd-mm-yy'
   }).datepicker('setDate', '0')
     .on('input change', function(e) {
       selectedDate = e.target.value;
+      drawTimeTables(selectedDate);
     })
 
+  // set today's date and load time tables
   selectedDate = $('#datepicker').val();
-
   drawTimeTables(selectedDate);
-  // loadAppt(doctors[0], "02-02-2018");
 });
 
 
-function makeAppt(doctor, date, time, name) {
-  console.log('doc: ' + doctor + '\ndate: ' + date + '\ntime: ' + time + '\nname: ' + name)
+function makeAppt(doctor, date, time, patient) {
+  console.log('doc: ' + doctor + '\ndate: ' + date + '\ntime: ' + time + '\npatient: ' + patient)
   database.ref().child('appointments').child(date).child(doctor).child(time).set({
     date: date,
     time: time,
-    name: name
+    patient: patient
   });
 }
 
@@ -56,12 +52,12 @@ function drawTimeTables(date) {
     console.log(appointments);
     for (var i = 0; i < doctors.length; i++) {
       var doctor = doctors[i];
-      var appointment = appointments[doctor]
+      var appointment = null
+      if (appointments != null) {
+        appointment = appointments[doctor]
+      }
       console.log('name: ' + doctor);
       console.log('appointment', appointment)
-      // for (var appt in appointments) {
-      //   console.log(appt);
-      // }
 
       var content = "";
       content += '<div id="' + doctor +  '" class="doctor-container" style="margin-top: 50px;">\n'
@@ -72,7 +68,7 @@ function drawTimeTables(date) {
         var patient = "";
         if (appointment != null && appointment != undefined && appointment[time] != undefined) {
           console.log(appointments[doctor][time])
-          patient = appointments[doctor][time]['name'];
+          patient = appointments[doctor][time]['patient'];
         }
 
         if (j % 4 == 0) {
@@ -80,13 +76,13 @@ function drawTimeTables(date) {
         }
 
         if (patient == "") {
-          content += '                <td class="btn btn-info btn-lg appointment-time">\n'
+          content += '                <td class="btn btn-info btn-lg appointment-time available">\n'
         } else {
-          content += '                <td class="btn-danger btn-info btn-lg appointment-time">\n'
+          content += '                <td class="btn-danger btn-info btn-lg appointment-time booked">\n'
         }
 
-        content += '                    <div>' + time + '</div>\n'
-        content += '                    <div>' + patient + '</div>\n'
+        content += '                    <div class="appointment-time">' + time + '</div>\n'
+        content += '                    <div class="appointment-patient">' + patient + '</div>\n'
         content += '                </td>\n'
 
         if (j % 4 == 3) {
@@ -102,40 +98,49 @@ function drawTimeTables(date) {
   })
 }
 
-
-// open
-/* does not work with the appended htmls
-$('.appointment-time').click(function() {
-  console.log($(this).closest('.doctor-container').find('.doctor-name').text());
-  // $('#appointment-doctor').text($(this).closest('.doctor-name').text()); // get the doctor
-  // $('#appointment-date').text($('#datepicker').val()); // get the date
-  // $('#appointment-time').text($(this).children(':first').text()); // get the time
-  // $('#myModal').modal('show'); // open the popup
-});
-*/
-
-//
-$('#time-tables').on('click', '.appointment-time', function() {
-  // console.log($(this).closest('.doctor-container').find('.doctor-name').text());
-  selectedDoc = $(this).closest('.doctor-container').find('.doctor-name').text();
-  $('#appointment-doctor').text(selectedDoc); // get the doctor
-  $('#appointment-date').text(selectedDate); // get the date
-  $('#appointment-time').text($(this).children(':first').text()); // get the time
-  $('#myModal').modal('show'); // open the popup
-});
-
-
+// open calendar
 $('#btn_date_picker').click(function() {
   $('#datepicker').datepicker('show');
 })
 
-$('#appointment-cancel').click(function() {
+// open make appointment pop up
+$('#time-tables').on('click', '.available', function() {
+  selectedDoc = $(this).closest('.doctor-container').find('.doctor-name').text();
+  $('#make-appointment-doctor').text(selectedDoc); // get the doctor
+  $('#make-appointment-date').text(selectedDate); // get the date
+  $('#make-appointment-time').text($(this).children('.appointment-time').text()); // get the time
+  $('#makeAppointmentModal').modal('show'); // open the popup
+});
+
+$('#make-appointment-confirm').click(function() {
+  console.log($('#make-appointment-date').text())
+  console.log($('#make-appointment-time').text())
+  console.log($('#make-appointment-patient').val())
+  makeAppt(selectedDoc, $('#make-appointment-date').text(), $('#make-appointment-time').text(), $('#make-appointment-patient').val())
+})
+
+$('#make-appointment-cancel').click(function() {
 
 })
 
-$('#appointment-confirm').click(function() {
-  console.log($('#appointment-date').text())
-  console.log($('#appointment-time').text())
-  console.log($('#appointment-patient').val())
-  makeAppt(selectedDoc, $('#appointment-date').text(), $('#appointment-time').text(), $('#appointment-patient').val())
+
+// open cancel appointment pop up
+$('#time-tables').on('click', '.booked', function() {
+  selectedDoc = $(this).closest('.doctor-container').find('.doctor-name').text();
+  $('#cancel-appointment-doctor').text(selectedDoc); // get the doctor
+  $('#cancel-appointment-date').text(selectedDate); // get the date
+  $('#cancel-appointment-time').text($(this).children('.appointment-time').text()); // get the time
+  $('#cancel-appointment-patient').text($(this).children('.appointment-patient').text()) // get the patient name
+  $('#cancelAppointmentModal').modal('show'); // open the popup
+});
+
+$('#cancel-appointment-confirm').click(function() {
+  console.log($('#cancel-appointment-date').text())
+  console.log($('#cancel-appointment-time').text())
+  console.log($('#cancel-appointment-patient').val())
+  makeAppt(selectedDoc, $('#cancel-appointment-date').text(), $('#cancel-appointment-time').text(), $('#cancel-appointment-patient').val())
+})
+
+$('#cancel-appointment-cancel').click(function() {
+
 })
